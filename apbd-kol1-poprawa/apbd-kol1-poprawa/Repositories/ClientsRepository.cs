@@ -129,13 +129,10 @@ public class ClientsRepository : IClientsRepository
 
     public async Task<int> GetCarPrice(int id)
     {
-        var query = @"SELECT 1 FROM CARS WHERE ID = @ID";
         
         await using var connection = new SqlConnection(_configuration.GetConnectionString("Default"));
         await using var command = new SqlCommand();
         command.Connection = connection;
-        command.CommandText = query;
-
         command.CommandText = @"SELECT PricePerDay from CARS WHERE ID = @ID";
         command.Parameters.AddWithValue("@ID", id);
 

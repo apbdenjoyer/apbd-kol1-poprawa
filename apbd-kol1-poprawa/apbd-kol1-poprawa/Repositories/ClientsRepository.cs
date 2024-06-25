@@ -149,7 +149,7 @@ public class ClientsRepository : IClientsRepository
     public async Task AddClientWithRental(AddClientWithRentalDto addClientWithRentalDto)
     {
         var insert = @"INSERT INTO CLIENTS VALUES(@FirstName, @LastName, @Address); 
-                       SELECT @@IDENTITY AS ID";
+                       SELECT SCOPE_IDENTITY() AS ID";
         await using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Default"));
         await using SqlCommand command = new SqlCommand();
 
@@ -176,7 +176,7 @@ public class ClientsRepository : IClientsRepository
             command.Parameters.Clear();
             command.CommandText =
                 @"INSERT INTO CAR_RENTALS VALUES (@ClientID, @CarID, @DateFrom, @DateTo, @TotalPrice, null); 
-                  SELECT @@IDENTITY AS ID";
+                  SELECT SCOPE_IDENTITY() AS ID";
 
             command.Parameters.AddWithValue("@ClientID", clientId);
             command.Parameters.AddWithValue("@CarID", addClientWithRentalDto.CarId);
